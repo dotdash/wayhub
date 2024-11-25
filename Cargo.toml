@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.92"
+anyhow = "1.0.93"
 directories = "5.0.1"
-octocrab = "0.41.2"
-serde = { version = "1.0.214", features = ["derive"] }
-serde_json = "1.0.132"
-tokio = "1.41.0"
+octocrab = "0.42.1"
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = "1.0.133"
+tokio = "1.41.1"
 toml = "0.8.19"
