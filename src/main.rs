@@ -6,6 +6,7 @@ use std::{
 use anyhow::{bail, Result};
 use config::{load_config, Counter};
 use directories::ProjectDirs;
+use human_date_parser::{from_human_time, ParseResult};
 use octocrab::Octocrab;
 use serde::Deserialize;
 use serde_json::json;
@@ -58,8 +59,14 @@ async fn run() -> Result<()> {
         .counters
         .iter()
         .enumerate()
-        .map(|(idx, Counter { query, .. })| {
-            format!(r#"q{idx}: search(type:ISSUE, query:"{query}") {{ issueCount }}"#)
+        .map(|(idx, Counter { query, last_updated, .. })| {
+            let last_updated = match from_human_time(last_updated.as_ref().map_or("today", String::as_str)) {
+                Ok(ParseResult::Date(d)) => d,
+                Ok(ParseResult::DateTime(dt)) => dt.date_naive(),
+                Ok(_) => panic!("last_updated ergibt keinen Datumswert"),
+                Err(e) => panic!("{e}: {}", last_updated.as_ref().map_or("today", String::as_str)),
+            };
+            format!(r#"q{idx}: search(type:ISSUE, query:"{query} updated:<={last_updated}") {{ issueCount }}"#)
         })
         .collect::<Vec<_>>()
         .join(" ");

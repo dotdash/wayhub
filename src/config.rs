@@ -7,6 +7,7 @@ use serde::Deserialize;
 pub struct Counter {
     pub label: String,
     pub query: String,
+    pub last_updated: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]

@@ -24,6 +24,11 @@ label = "<span color=\"green\">Ready</span>"
 query = "is:open author:@me review:approved"
 
 [[counters]]
+label = "<span color=\"green\">Stale</span>"
+query = "is:open is:pr author:@me review:none"
+last_updated = "2 weeks ago"
+
+[[counters]]
 label = "<span color=\"red\">Changes Requested</span>"
 query = "is:open author:@me review:changes_requested"
 
@@ -36,6 +41,10 @@ Each counter needs a query using the syntax for [Searching issues and pull
 requests](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)
 and a label which can be formatted using [Pango
 markup](https://docs.gtk.org/Pango/pango_markup.html).
+
+The optional `last_updated` field accepts a human readable date string, like `2
+weeks ago` or `last month` and restricts hits to issues/prs that have have last
+updated on of before that date.
 
 Only counters with a number greater than 0 are shown.
 
